@@ -1,0 +1,27 @@
+<!-- ner_app/templates/ner_app/ner.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NER Entity Extractor with OCR</title>
+</head>
+<body>
+    <h1>Named Entity Recognition from Image Upload</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="uploaded_image">Upload an image:</label><br>
+        <input type="file" name="uploaded_image" id="uploaded_image" accept="image/*"><br><br>
+        <button type="submit">Extract Entities</button>
+    </form>
+
+    {% if extracted_data %}
+    <h2>Extracted Information:</h2>
+    <ul>
+        {% for label, entities in extracted_data.items %}
+            <li><strong>{{ label }}:</strong> {{ entities|join:", " }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</body>
+</html>
