@@ -1,0 +1,126 @@
+<!-- ner_app/templates/ner_app/ner.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NER Entity Extractor with OCR</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff5e6; /* Light orange background */
+            color: #cc5500; /* Dark orange text */
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            background-color: #ff6600; /* Primary orange */
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        /* Form Styling */
+        form {
+            background-color: #ffffff;
+            padding: 30px;
+            margin: 20px auto;
+            max-width: 500px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-size: 1.2rem;
+            color: #ff6600; /* Primary orange */
+        }
+
+        input[type="file"] {
+            margin: 10px 0;
+            padding: 5px;
+            border: 2px solid #ff6600;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #ff6600;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #e65c00; /* Darker orange on hover */
+        }
+
+        /* Extracted Data Section */
+        h2 {
+            color: #ff5500; /* Medium orange */
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        strong {
+            color: #ff6600; /* Highlighted label color */
+        }
+
+        /* Full Text Section */
+        #full-text-section {
+            background-color: #ffffff;
+            padding: 20px;
+            margin-top: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #full-text-section pre {
+            background-color: #fff0e0; /* Light orange for text background */
+            padding: 15px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <h1>Named Entity Recognition from Image Upload</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="uploaded_image">Upload an image:</label><br>
+        <input type="file" name="uploaded_image" id="uploaded_image" accept="image/*"><br><br>
+        <button type="submit">Extract Entities</button>
+    </form>
+
+    {% if extracted_data %}
+    <h2>Extracted Information:</h2>
+    <ul>
+        {% for label, entities in extracted_data.items %}
+            <li><strong>{{ label }}:</strong> {{ entities|join:", " }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <!-- Full Text Section -->
+    {% if full_text %}
+    <div id="full-text-section">
+        <h2>Full Extracted Text:</h2>
+        <pre>{{ full_text }}</pre>
+    </div>
+    {% endif %}
+</body>
+</html>
