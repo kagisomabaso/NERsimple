@@ -7,6 +7,7 @@ import os
 
 def ner_view(request):
     extracted_data = {}
+    text = None
 
     if request.method == "POST" and request.FILES.get("uploaded_image"):
         uploaded_image = request.FILES["uploaded_image"]
